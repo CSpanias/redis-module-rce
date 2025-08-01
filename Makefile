@@ -1,9 +1,9 @@
 # Minimal Makefile for Redis RCE module
 CC = gcc
-CFLAGS = -Wall -fPIC -O2 -std=gnu99 -I.
+CFLAGS = -Wall -fPIC -O2 -std=gnu99 -Imodule
 LDFLAGS = -shared
 TARGET = module.so
-SRC = module.c
+SRC = module/module.c
 
 all: $(TARGET)
 
