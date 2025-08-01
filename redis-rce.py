@@ -252,20 +252,20 @@ if __name__ == '__main__':
     parser.add_option("--rhost", dest="rh", type="string",
                       help="target host", metavar="REMOTE_HOST")
     parser.add_option("--rport", dest="rp", type="int",
-                      help="target redis port, default 6379", default=6379,
+                      help="target redis port (default 6379)", default=6379,
                       metavar="REMOTE_PORT")
     parser.add_option("--lhost", dest="lh", type="string",
                       help="rogue server ip", metavar="LOCAL_HOST")
     parser.add_option("--lport", dest="lp", type="int",
-                      help="rogue server listen port, default 6379", default=6379,
+                      help="rogue server listen port (default 6379)", default=6379,
                       metavar="LOCAL_PORT")
     parser.add_option("--exp", dest="exp", type="string",
-                      help="Redis Module to load, default module.so", default="module.so",
+                      help="Redis Module to load (default module.so)", default="module.so",
                       metavar="EXP_FILE")
     parser.add_option("-v", "--verbose", action="store_true", default=False,
                       help="Show full data stream")
     parser.add_option("--passwd", dest="rpasswd", type="string",
-                      help="target redis password")
+                      help="target redis password (optional)")
 
     (options, args) = parser.parse_args()
     global verbose, payload, exp_mod
