@@ -263,7 +263,7 @@ if __name__ == '__main__':
                       help="Redis Module to load (default module.so)", default="module.so",
                       metavar="EXP_FILE")
     parser.add_option("-v", "--verbose", action="store_true", default=False,
-                      help="Show full data stream")
+                      help="Show full data stream (optional)")
     parser.add_option("--passwd", dest="rpasswd", type="string",
                       help="target redis password (optional)")
 
